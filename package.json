@@ -13,7 +13,7 @@
     "deploy:website": "gh-pages -d dist"
   },
   "dependencies": {
-    "@lizzelabs/react-harmony": "link:../react-harmony",
+    "@lizzelabs/react-harmony": "^1.2.2",
     "@types/lodash": "^4.17.20",
     "lodash": "^4.17.21",
     "react": "^19.2.0",
