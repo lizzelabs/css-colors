@@ -68,6 +68,7 @@ export const OtherDevices = () => {
         horizontal
         scrollSnap='x mandatory'
         behavior='instant'
+        touchAction='none'
       >
         <Section
           ref={wheelSection}

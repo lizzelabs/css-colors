@@ -81,6 +81,7 @@ export const SmallDevices = () => {
         behavior='instant'
         highlight={highlight}
         primary={color}
+        touchAction='none'
       >
         <Section>
           <Scrollable
@@ -89,6 +90,7 @@ export const SmallDevices = () => {
             behavior='instant'
             highlight={highlight}
             primary={color}
+            touchAction='none'
           >
             <Section
               ref={wheelSection}

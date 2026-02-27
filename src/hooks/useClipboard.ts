@@ -39,12 +39,10 @@ export const useClipboard = (): string => {
       interval = setInterval(readClipboard, 500);
     }
 
-    window.addEventListener('click', readClipboard);
     window.addEventListener('paste', paste);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('click', readClipboard);
       window.removeEventListener('paste', paste);
     };
   }, []);

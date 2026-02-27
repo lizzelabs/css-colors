@@ -32,6 +32,9 @@ export const useWheelInternal = (props: WheelProps) => {
       computed: WheelComputedSize,
       freeMove: boolean,
     ) => {
+      event.preventDefault();
+      event.stopPropagation();
+
       if (selectedIndex === -1) {
         return;
       }
@@ -92,6 +95,9 @@ export const useWheelInternal = (props: WheelProps) => {
 
   const onPointerUp = useCallback(
     (event: ReactPointerEvent<HTMLCanvasElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
       const canvas = canvasRef.current;
 
       if (canvas !== null && canvas.hasPointerCapture(event.pointerId)) {
@@ -105,6 +111,9 @@ export const useWheelInternal = (props: WheelProps) => {
 
   const onPointerDown = useCallback(
     (event: ReactPointerEvent<HTMLCanvasElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
       const canvas = canvasRef.current;
 
       if (canvas === null) {
