@@ -13,8 +13,8 @@ export const useWheel = () => {
   const calculeSizes = useCallback(({ width, height }: Size) => {
     const dpr = window.devicePixelRatio || 1;
     const min = Math.min(width, height);
-    const size = Math.abs(min * 0.5);
-    const totalSize = Math.round(Math.round(size * dpr) * 0.85);
+    const size = min;
+    const totalSize = Math.round(Math.round(size) * 0.7);
     const radius = totalSize / 2;
     const pickerRadius = CssColorsUtils.round(totalSize * 0.04);
     const center = {

@@ -225,6 +225,8 @@ export const SmallDevices = () => {
             behavior='instant'
             highlight={(theme: Theme) => theme.highlight.raw}
             primary={(theme: Theme) => theme.color.raw}
+            gap='20px'
+            padding='0 15px'
           >
             {state.themes.map((theme, index) => (
               <Color

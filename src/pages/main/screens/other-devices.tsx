@@ -127,6 +127,8 @@ export const OtherDevices = () => {
             horizontal
             scrollSnap='x mandatory'
             margin='0 0 10px 0'
+            gap='20px'
+            padding='0 15px'
           >
             {state.themes.map((theme, index) => (
               <Color

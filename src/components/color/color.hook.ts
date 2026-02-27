@@ -26,7 +26,8 @@ export const useColor = (props: ColorProps) => {
         position: 'relative',
         cursor: 'pointer',
         flex: '1 0 250px',
-        margin: '10px',
+        maxWidth: '500px',
+        margin: '0 auto',
         background: current.color.raw,
         borderRadius: '15px',
         boxShadow: props.selected
