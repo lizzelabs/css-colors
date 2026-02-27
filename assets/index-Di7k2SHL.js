@@ -21920,7 +21920,7 @@ const xC = (r) => {
             ((u = document.createElement('meta')),
             (u.name = 'theme-color'),
             document.head.appendChild(u)),
-          (u.content = c.color.raw),
+          u.setAttribute('content', c.color.raw),
           () => {
             document.head.removeChild(u);
           }
