@@ -6,6 +6,7 @@ import { Logs } from './log';
 import { isNaN, isNil, omitBy, throttle, assign } from './lodash';
 import { readClipboard } from './readClipboard';
 import { hslToCoordinates } from './hslToCoordinates';
+import { getBrowser } from './getBrowser';
 
 export * from './types';
 
@@ -22,4 +23,5 @@ export const CssColorsUtils = {
   assign,
   readClipboard,
   hslToCoordinates,
+  getBrowser,
 };

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { CURRENT_THEME, CSS_COLORS } from '@/theme';
 import { PieceProvider, Screen } from '@lizzelabs/react-harmony';
 import { Main } from './main';
-import { NotificationProvider } from '@/components';
+import { Meta, NotificationProvider } from '@/components';
 
 export const Root: FC = () => {
   return (
@@ -16,7 +16,9 @@ export const Root: FC = () => {
           fontSize='16px'
           fontFamily='"Mozilla Text", sans-serif'
         >
-          <Main />
+          <Meta>
+            <Main />
+          </Meta>
         </Screen>
       </NotificationProvider>
     </PieceProvider>

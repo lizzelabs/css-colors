@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@lizzelabs/react-harmony':
-        specifier: ^1.2.0
-        version: 1.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: link:../react-harmony
+        version: link:../react-harmony
       '@types/lodash':
         specifier: ^4.17.20
         version: 4.17.24
@@ -377,12 +377,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@lizzelabs/react-harmony@1.2.0':
-    resolution: {integrity: sha512-V6+BczUHNfUv5pR6cA9PhQGey4bCio3i6SdZuXfumBvASW474S+YUhE3HWFma9I/Qc4Xc++OZcPLPORSvZQA0w==}
-    peerDependencies:
-      react: ^19.2.1
-      react-dom: ^19.2.1
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1261,9 +1255,6 @@ packages:
     resolution: {integrity: sha512-k55yxKHwaXnpYGsOzg4Vl8+tDrWylxDEpknGjhTiZB8dFRU5rTo9CAzeycivxV3s+zlTKwrs6WxMxR95n26kwg==}
     engines: {node: '>=0.10.0'}
 
-  stylis@4.3.6:
-    resolution: {integrity: sha512-yQ3rwFWRfwNUY7H5vpU0wfdkNSnvnJinhF9830Swlaxl03zsOjCfmX0ugac+3LtK0lYSgwL/KXc8oYL3mG4YFQ==}
-
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
@@ -1664,13 +1655,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@lizzelabs/react-harmony@1.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
-    dependencies:
-      lodash: 4.17.23
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-      stylis: 4.3.6
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -2500,8 +2484,6 @@ snapshots:
   strip-outer@1.0.1:
     dependencies:
       escape-string-regexp: 1.0.5
-
-  stylis@4.3.6: {}
 
   supports-color@7.2.0:
     dependencies:

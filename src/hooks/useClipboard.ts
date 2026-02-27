@@ -1,3 +1,4 @@
+import { CssColorsUtils } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
 export const useClipboard = (): string => {
@@ -9,6 +10,11 @@ export const useClipboard = (): string => {
       console.info('Clipboard not supported here.');
       return;
     }
+
+    const paste = (event: ClipboardEvent) => {
+      const text = event.clipboardData?.getData('text');
+      setClipboard(text);
+    };
 
     const readClipboard = () => {
       if (document.hasFocus()) {
@@ -26,13 +32,20 @@ export const useClipboard = (): string => {
       }
     };
 
-    const interval = setInterval(readClipboard, 500);
+    const browser = CssColorsUtils.getBrowser();
+    let interval = 0;
 
-    window.addEventListener('focus', readClipboard);
+    if (browser === 'chrome') {
+      interval = setInterval(readClipboard, 500);
+    }
+
+    window.addEventListener('click', readClipboard);
+    window.addEventListener('paste', paste);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('focus', readClipboard);
+      window.removeEventListener('click', readClipboard);
+      window.removeEventListener('paste', paste);
     };
   }, []);
 
