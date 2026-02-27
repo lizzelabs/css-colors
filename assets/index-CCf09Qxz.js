@@ -21080,9 +21080,8 @@ void main() {
   yC = () => {
     const r = D.useCallback(({ width: p, height: m }) => {
         const _ = window.devicePixelRatio || 1,
-          S = Math.min(p, m),
-          E = Math.abs(S * 0.5),
-          T = Math.round(Math.round(E * _) * 0.85),
+          E = Math.min(p, m),
+          T = Math.round(Math.round(E) * 0.7),
           q = T / 2,
           B = it.round(T * 0.04),
           N = { x: T / 2, y: T / 2 };
@@ -21317,7 +21316,8 @@ void main() {
           position: 'relative',
           cursor: 'pointer',
           flex: '1 0 250px',
-          margin: '10px',
+          maxWidth: '500px',
+          margin: '0 auto',
           background: o.color.raw,
           borderRadius: '15px',
           boxShadow: r.selected ? 'none' : `0px 0px 5px 3px ${o.shadow.raw}`,
@@ -27951,6 +27951,8 @@ const OC = (r, c) => {
                 horizontal: !0,
                 scrollSnap: 'x mandatory',
                 margin: '0 0 10px 0',
+                gap: '20px',
+                padding: '0 15px',
                 children: c.themes.map((ee, k) =>
                   R.jsx(
                     U5,
@@ -28218,6 +28220,8 @@ const OC = (r, c) => {
                 behavior: 'instant',
                 highlight: (Ae) => Ae.highlight.raw,
                 primary: (Ae) => Ae.color.raw,
+                gap: '20px',
+                padding: '0 15px',
                 children: r.themes.map((Ae, oe) =>
                   R.jsx(
                     U5,
