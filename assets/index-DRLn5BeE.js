@@ -21922,6 +21922,8 @@ const xC = (r) => {
             ((u = document.createElement('meta')),
             (u.name = 'theme-color'),
             document.head.appendChild(u)),
+          (document.body.style.backgroundColor = c.color.raw),
+          (document.documentElement.style.backgroundColor = c.color.raw),
           u.setAttribute('content', c.color.raw),
           () => {
             document.head.removeChild(u);
