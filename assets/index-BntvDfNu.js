@@ -20962,7 +20962,7 @@ void main() {
         [r.computed.totalSize],
       ),
       m = D.useCallback((T, q, B, N, X, Z, J) => {
-        if ((T.stopPropagation(), N === -1)) return;
+        if ((T.preventDefault(), T.stopPropagation(), N === -1)) return;
         const $ = c.current;
         if ($ === null) return;
         const ue = Ct.getMousePosition($, T);
@@ -20997,7 +20997,7 @@ void main() {
       ),
       S = D.useCallback(
         (T) => {
-          T.stopPropagation();
+          (T.preventDefault(), T.stopPropagation());
           const q = c.current;
           (q !== null &&
             q.hasPointerCapture(T.pointerId) &&
@@ -21009,7 +21009,7 @@ void main() {
       E = D.useCallback(
         (T) => {
           var Z;
-          T.stopPropagation();
+          (T.preventDefault(), T.stopPropagation());
           const q = c.current;
           if (q === null) return;
           q.setPointerCapture(T.pointerId);
