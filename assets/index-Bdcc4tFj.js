@@ -27938,6 +27938,7 @@ const jC = (r, c) => {
         horizontal: !0,
         scrollSnap: 'x mandatory',
         behavior: 'instant',
+        withStyle: { touchAction: 'none' },
         children: [
           R.jsxs(Qf, {
             ref: r,
@@ -28121,6 +28122,7 @@ const jC = (r, c) => {
         behavior: 'instant',
         highlight: k,
         primary: ee,
+        withStyle: { touchAction: 'none' },
         children: [
           R.jsx(Qf, {
             children: R.jsxs(Vf, {
@@ -28129,6 +28131,7 @@ const jC = (r, c) => {
               behavior: 'instant',
               highlight: k,
               primary: ee,
+              withStyle: { touchAction: 'none' },
               children: [
                 R.jsxs(Qf, {
                   ref: d,
