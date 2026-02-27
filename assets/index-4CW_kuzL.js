@@ -27700,12 +27700,9 @@ const jC = (r, c) => {
         let p = 0;
         return (
           g === 'chrome' && (p = setInterval(d, 500)),
-          window.addEventListener('click', d),
           window.addEventListener('paste', o),
           () => {
-            (clearInterval(p),
-              window.removeEventListener('click', d),
-              window.removeEventListener('paste', o));
+            (clearInterval(p), window.removeEventListener('paste', o));
           }
         );
       }, []),
