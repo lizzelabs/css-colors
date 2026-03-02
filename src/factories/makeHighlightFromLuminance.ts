@@ -1,6 +1,5 @@
 import { AnyValidColor, Luminance, ValidColors } from '@/types';
 import { makeCurrentColorTo } from './makeCurrentColorTo';
-import { CssColorsUtils } from '@/utils';
 
 export const makeHighlightFromLuminance = (
   color: AnyValidColor,
