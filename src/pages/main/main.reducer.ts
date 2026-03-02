@@ -100,7 +100,7 @@ export const MainPageReducer = {
   },
   onChangeWheelOutputColorKind: (
     { prevState },
-    { kind }: { theme: WheelOutput; kind: ValidColors },
+    { kind, theme }: { theme: WheelOutput; kind: ValidColors },
   ) => {
     const themeAccents = [
       '100',
@@ -115,32 +115,34 @@ export const MainPageReducer = {
     ] satisfies WheelOutputAccents[];
     const apply = ['color', 'highlight', 'text', 'shadow'];
 
-    const themes = prevState.themes.map((previousTheme) => ({
-      ...previousTheme,
-      ...themeAccents.reduce(
-        (themeAccent, key) => ({
-          ...themeAccent,
-          [key]: apply.reduce(
-            (current, currentApply) => ({
-              ...current,
-              [currentApply]: CssColorsFactories.makeCurrentColorTo(
-                previousTheme[key as keyof WheelOutput][
-                  currentApply as any
-                ] as AnyValidColor,
-                kind,
-              ),
-            }),
-            {},
-          ),
-        }),
-        {},
-      ),
-      kind,
-    }));
-
     return {
       ...prevState,
-      themes,
+      themes: prevState.themes.map((current) =>
+        current.id === theme.id
+          ? {
+              ...theme,
+              ...themeAccents.reduce(
+                (themeAccent, key) => ({
+                  ...themeAccent,
+                  [key]: apply.reduce(
+                    (applyObj, currentApply) => ({
+                      ...applyObj,
+                      [currentApply]: CssColorsFactories.makeCurrentColorTo(
+                        current[key as keyof WheelOutput][
+                          currentApply as any
+                        ] as AnyValidColor,
+                        kind,
+                      ),
+                    }),
+                    {},
+                  ),
+                }),
+                {},
+              ),
+              kind,
+            }
+          : current,
+      ),
     };
   },
   onChangeColor: (
