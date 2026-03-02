@@ -22263,8 +22263,8 @@ const xC = (r) => {
       ...r,
       themes: r.themes.map((o) => (o.id === c.id ? { ...c, applyTo: u } : o)),
     }),
-    onChangeWheelOutputColorKind: ({ prevState: r }, { kind: c }) => {
-      const u = [
+    onChangeWheelOutputColorKind: ({ prevState: r }, { kind: c, theme: u }) => {
+      const o = [
           '100',
           '200',
           '300',
@@ -22275,22 +22275,31 @@ const xC = (r) => {
           '800',
           '900',
         ],
-        o = ['color', 'highlight', 'text', 'shadow'],
-        d = r.themes.map((g) => ({
-          ...g,
-          ...u.reduce(
-            (p, m) => ({
-              ...p,
-              [m]: o.reduce(
-                (_, S) => ({ ..._, [S]: it.makeCurrentColorTo(g[m][S], c) }),
-                {},
-              ),
-            }),
-            {},
-          ),
-          kind: c,
-        }));
-      return { ...r, themes: d };
+        d = ['color', 'highlight', 'text', 'shadow'];
+      return {
+        ...r,
+        themes: r.themes.map((g) =>
+          g.id === u.id
+            ? {
+                ...u,
+                ...o.reduce(
+                  (p, m) => ({
+                    ...p,
+                    [m]: d.reduce(
+                      (_, S) => ({
+                        ..._,
+                        [S]: it.makeCurrentColorTo(g[m][S], c),
+                      }),
+                      {},
+                    ),
+                  }),
+                  {},
+                ),
+                kind: c,
+              }
+            : g,
+        ),
+      };
     },
     onChangeColor: ({ prevState: r }, { theme: c, color: u }) => ({
       ...r,
