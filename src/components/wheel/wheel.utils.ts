@@ -307,8 +307,9 @@ export const WheelUtils = {
               );
         const rgba = CssColorsFactories.makeCurrentColorTo(color, 'RGBA');
         const luminance = CssColorsFactories.makeLuminance(rgba);
-        const highlight = CssColorsFactories.makeCurrentColorTo(
-          WheelUtils.shade(color, 0.7, 0.9),
+        const highlight = CssColorsFactories.makeHighlightFromLuminance(
+          rgba,
+          luminance,
           'RGBA',
         );
         const text = CssColorsFactories.makeTextColorFromLuminance(luminance);

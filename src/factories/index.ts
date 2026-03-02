@@ -21,6 +21,7 @@ import { makeHslFromHsla } from './makeHslFromHsla';
 import { makeCurrentColorTo } from './makeCurrentColorTo';
 import { makeColorFromString } from './makeColorFromString';
 import { makeTextColorFromLuminance } from './makeTextColorFromLuminance';
+import { makeHighlightFromLuminance } from './makeHighlightFromLuminance';
 import { makeHex } from './makeHex';
 import { makeHSL } from './makeHsl';
 import { makeHSLA } from './makeHsla';
@@ -72,4 +73,5 @@ export const CssColorsFactories = {
   makeFrameBuffer,
   makeGlslProgram,
   makeTexture2D,
+  makeHighlightFromLuminance,
 };

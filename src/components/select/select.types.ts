@@ -14,4 +14,5 @@ export interface SelectProps<T> {
   color?: string;
   directionals?: boolean;
   uppercase?: boolean;
+  noTransition?: boolean;
 }

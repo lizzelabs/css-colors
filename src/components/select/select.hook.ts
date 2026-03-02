@@ -39,6 +39,7 @@ export const useSelect = <T>(props: SelectProps<T>) => {
         flex: '1 1 100%',
         background: current.color,
         color: current.text,
+        transition: 'background 0.3s linear',
         '&:hover': {
           background: current.highlight,
         },
@@ -55,6 +56,7 @@ export const useSelect = <T>(props: SelectProps<T>) => {
       flex: '1 1 auto',
       alignItems: 'center',
       fontSize: '0.7rem',
+      transition: 'none',
       textTransform: props.uppercase ? 'uppercase' : 'none',
       '@container select (max-width: 300px)': {
         fontSize: '0.6rem',
@@ -78,6 +80,7 @@ export const useSelect = <T>(props: SelectProps<T>) => {
         width: '100%',
         background: current.color,
         color: current.text,
+        transition: 'none',
       }) satisfies WithStyle,
     [selectVisibility, current.color, current.text],
   );
@@ -93,6 +96,7 @@ export const useSelect = <T>(props: SelectProps<T>) => {
         fontSize: '0.75rem',
         padding: `${theme.padding.medium}px`,
         color: current.text,
+        transition: 'none',
         '&:hover': {
           background: current.highlight,
         },
