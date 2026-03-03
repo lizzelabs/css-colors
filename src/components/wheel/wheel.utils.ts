@@ -313,11 +313,11 @@ export const WheelUtils = {
           'RGBA',
         );
         const text = CssColorsFactories.makeTextColorFromLuminance(luminance);
-        const shadow = {
-          ...text,
-          alpha: 0.3,
-          raw: `rgba(${text.red}, ${text.green}, ${text.blue}, 0.2)`,
-        } satisfies RGBA;
+        const shadow = CssColorsFactories.makeShadowFromLuminance(
+          rgba,
+          luminance,
+          'RGBA',
+        );
 
         return {
           ...output,

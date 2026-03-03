@@ -32,10 +32,11 @@ export const useColor = (props: ColorProps) => {
         borderRadius: '15px',
         boxShadow: props.selected
           ? 'none'
-          : `0px 0px 5px 3px ${current.shadow.raw}`,
-        border: props.selected ? `2px solid ${current.shadow.raw}` : 'none',
+          : `0px 0px 5px 5px ${current.shadow.raw}`,
+        border: props.selected ? `5px solid ${current.shadow.raw}` : 'none',
+        boxSizing: 'content-box',
       }) satisfies WithStyle,
-    [current],
+    [current, props.selected],
   );
 
   const contentStyle = useMemo(
@@ -58,6 +59,7 @@ export const useColor = (props: ColorProps) => {
         flex: '1 0 calc(100% - 50px)',
         height: '50px',
         width: '100%',
+        boxSizing: 'content-box',
         '@container card (max-width: 399px)': {
           height: '35px',
           flex: '0 0 35px',

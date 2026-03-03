@@ -96,7 +96,13 @@ export const SmallDevices = () => {
               ref={wheelSection}
               contentRows='55px 50px calc(100% - 155px) 50px'
             >
-              <Piece atRow={1}>
+              <Piece
+                atRow={1}
+                withStyle={(theme: Theme) => ({
+                  borderBottom: `1px solid ${theme.highlight.raw}`,
+                  boxSizing: 'content-box',
+                })}
+              >
                 <Select
                   options={Modes}
                   value={state.mode}
