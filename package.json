@@ -9,8 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy:website": "pnpm build",
-    "deploy:website": "gh-pages -d dist"
+    "predeploy": "pnpm build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@lizzelabs/react-harmony": "^1.2.4",
