@@ -56,13 +56,13 @@ export const useColor = (props: ColorProps) => {
   const rowSelectsStyle = useMemo(
     () =>
       ({
-        flex: '1 0 calc(100% - 50px)',
         height: '50px',
         width: '100%',
-        boxSizing: 'content-box',
         '@container card (max-width: 399px)': {
-          height: '35px',
-          flex: '0 0 35px',
+          flexDirection: 'column',
+        },
+        '@container card (min-width: 400px)': {
+          flexDirection: 'row',
         },
       }) satisfies WithStyle,
     [],

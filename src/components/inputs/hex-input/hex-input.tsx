@@ -37,17 +37,20 @@ export const HexInput = (props: HexInputProps) => {
           disableRightRadius
         />
       </Piece>
-        <Piece flex='0 0 15px' >
-      <Slider
-        max={1}
-        min={0}
-        step={0.1}
-        deg={90}
-        direction='horizontal'
-        colors={gradient}
-        value={alpha}
-        onChange={onAlphaChange}
-      ></Slider>
+      <Piece
+        flex='0 0 15px'
+        padding='0 50px'
+      >
+        <Slider
+          max={1}
+          min={0}
+          step={0.1}
+          deg={90}
+          direction='horizontal'
+          colors={gradient}
+          value={alpha}
+          onChange={onAlphaChange}
+        ></Slider>
       </Piece>
     </Piece>
   );

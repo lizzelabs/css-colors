@@ -76,10 +76,7 @@ export const OtherDevices = () => {
         >
           <Piece
             atRow={1}
-            withStyle={(theme: Theme) => ({
-              borderBottom: `1px solid ${theme.highlight.raw}`,
-              boxSizing: 'content-box',
-            })}
+            borderBottom={(theme: Theme) => `1px solid ${theme.highlight.raw}`}
           >
             <Select
               options={Modes}

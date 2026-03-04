@@ -19,7 +19,6 @@ export interface ColorInputProps<T extends ValidColors> {
 }
 
 export interface UseColorInput<T extends ValidColors> {
-  input: JSX.Element;
   value: ColorValue<T> | undefined;
   onHexInputChange: (value: HEX) => void;
   onRgbInputChange: (value: RGB | RGBA) => void;

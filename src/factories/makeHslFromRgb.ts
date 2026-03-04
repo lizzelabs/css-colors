@@ -46,7 +46,10 @@ export const makeHslFromRgb = (color: RGB): HSL => {
   const max = Math.max(red, green, blue);
   const min = Math.min(red, green, blue);
   const difference = max - min;
-  const hue = calculeHueFrom(max, difference, red, green, blue);
+  const hue = CssColorsUtils.round(
+    calculeHueFrom(max, difference, red, green, blue),
+    2,
+  );
   const lightness = CssColorsUtils.round(((max + min) / 2) * 100, 2);
   const saturation =
     difference === 0

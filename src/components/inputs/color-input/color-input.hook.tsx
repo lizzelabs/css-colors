@@ -10,16 +10,11 @@ import type {
   HSLA,
 } from '@/types';
 import { ColorInputProps, UseColorInput } from './color-input.types';
-import { HexInput } from '../hex-input';
-import { RgbInput } from '../rgb-input';
-import { HslInput } from '../hsl-input';
 
 export const useColorInput = <T extends ValidColors>({
   value,
   type,
   onChange,
-  highlight,
-  text,
 }: ColorInputProps<T>): UseColorInput<T> => {
   useEffect(
     function onTypeChange() {
@@ -53,71 +48,7 @@ export const useColorInput = <T extends ValidColors>({
     [onChange],
   );
 
-  const input = useMemo(() => {
-    const InputMap = {
-      HEX: (
-        <HexInput
-          key='hex'
-          hex={value as HEX}
-          onChange={onHexInputChange}
-          text={text}
-          highlight={highlight}
-        ></HexInput>
-      ),
-      RGB: (
-        <RgbInput
-          key='rgb'
-          value={value as RGB}
-          onChange={onRgbInputChange}
-          hasAlpha={false}
-          text={text}
-          highlight={highlight}
-        ></RgbInput>
-      ),
-      RGBA: (
-        <RgbInput
-          key='rgba'
-          value={value as RGBA}
-          onChange={onRgbInputChange}
-          hasAlpha={true}
-          text={text}
-          highlight={highlight}
-        ></RgbInput>
-      ),
-      HSL: (
-        <HslInput
-          key='hsl'
-          value={value as HSL}
-          onChange={onHslInputChange}
-          hasAlpha={false}
-          text={text}
-          highlight={highlight}
-        ></HslInput>
-      ),
-      HSLA: (
-        <HslInput
-          key='hsl'
-          value={value as HSLA}
-          onChange={onHslInputChange}
-          hasAlpha={true}
-          text={text}
-          highlight={highlight}
-        ></HslInput>
-      ),
-    };
-
-    return InputMap[type] as JSX.Element;
-  }, [
-    value,
-    text,
-    highlight,
-    onHexInputChange,
-    onRgbInputChange,
-    onHslInputChange,
-  ]);
-
   return {
-    input,
     value: value,
     onHexInputChange,
     onRgbInputChange,

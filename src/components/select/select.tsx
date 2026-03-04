@@ -85,6 +85,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
           highlight={current.highlight}
           behavior='smooth'
           gap='20px'
+          transition='none'
         >
           {props.options.map((option) => (
             <Piece
