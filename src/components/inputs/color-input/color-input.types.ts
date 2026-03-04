@@ -7,7 +7,6 @@ import type {
   RGBA,
   ValidColors,
 } from '@/types';
-import { JSX } from 'react';
 
 export interface ColorInputProps<T extends ValidColors> {
   type: T;

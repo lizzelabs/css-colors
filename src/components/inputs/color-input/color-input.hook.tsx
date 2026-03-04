@@ -1,4 +1,4 @@
-import { JSX, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { CssColorsFactories } from '@/factories';
 import type {
   ValidColors,
