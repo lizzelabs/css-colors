@@ -21207,7 +21207,6 @@ void main() {
       atRow: r.atRow,
       children: R.jsx(be, {
         ref: c,
-        tabIndex: -1,
         as: 'canvas',
         position: 'absolute',
         left: '50%',
