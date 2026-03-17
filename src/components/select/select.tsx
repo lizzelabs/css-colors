@@ -42,6 +42,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
       <Text
         as='span'
         withStyle={textStyle}
+        justifyContent={props.textAligment}
       >
         {props.value?.display || props.label}
       </Text>

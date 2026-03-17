@@ -49,6 +49,7 @@ export const Color = (props: ColorProps): ReactNode => {
               color={current.color.raw}
               text={current.text.raw}
               highlight={current.highlight.raw}
+              textAligment='center'
               uppercase
             ></Select>
             <Select
@@ -59,6 +60,7 @@ export const Color = (props: ColorProps): ReactNode => {
               color={current.color.raw}
               text={current.text.raw}
               highlight={current.highlight.raw}
+              textAligment='center'
               uppercase
             ></Select>
             <Select
@@ -69,6 +71,7 @@ export const Color = (props: ColorProps): ReactNode => {
               color={current.color.raw}
               text={current.text.raw}
               highlight={current.highlight.raw}
+              textAligment='center'
               uppercase
             ></Select>
           </Piece>

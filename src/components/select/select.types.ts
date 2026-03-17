@@ -15,4 +15,5 @@ export interface SelectProps<T> {
   directionals?: boolean;
   uppercase?: boolean;
   noTransition?: boolean;
+  textAligment?: 'start' | 'center' | 'end';
 }

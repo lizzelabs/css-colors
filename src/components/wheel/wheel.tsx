@@ -14,7 +14,6 @@ export const Wheel = (props: WheelProps): ReactNode => {
     >
       <Piece
         ref={canvasRef}
-        tabIndex={-1}
         as='canvas'
         position='absolute'
         left='50%'
