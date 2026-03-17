@@ -16602,6 +16602,7 @@ const J6 = (r) => I6(r).element,
         R.jsx(py, {
           as: 'span',
           withStyle: o,
+          justifyContent: r.textAligment,
           children: ((q = r.value) == null ? void 0 : q.display) || r.label,
         }),
         R.jsx(jn, {
@@ -21460,7 +21461,9 @@ void main() {
           margin: '0 auto',
           background: o.color.raw,
           borderRadius: '15px',
-          boxShadow: r.selected ? 'none' : `0px 0px 5px 5px ${o.shadow.raw}`,
+          boxShadow: r.selected
+            ? 'none'
+            : '5px 5px 10px 0px rgba(0, 0, 0, 0.2)',
           border: r.selected ? `5px solid ${o.shadow.raw}` : 'none',
           boxSizing: 'content-box',
         }),
@@ -21761,6 +21764,7 @@ const AC = (r) => {
                     color: _.color.raw,
                     text: _.text.raw,
                     highlight: _.highlight.raw,
+                    textAligment: 'center',
                     uppercase: !0,
                   }),
                   R.jsx(b0, {
@@ -21771,6 +21775,7 @@ const AC = (r) => {
                     color: _.color.raw,
                     text: _.text.raw,
                     highlight: _.highlight.raw,
+                    textAligment: 'center',
                     uppercase: !0,
                   }),
                   R.jsx(b0, {
@@ -21781,6 +21786,7 @@ const AC = (r) => {
                     color: _.color.raw,
                     text: _.text.raw,
                     highlight: _.highlight.raw,
+                    textAligment: 'center',
                     uppercase: !0,
                   }),
                 ],
