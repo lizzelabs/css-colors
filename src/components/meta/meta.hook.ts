@@ -17,6 +17,7 @@ export const useMeta = (_: MetaProperties) => {
       document.head.appendChild(meta);
     }
 
+    document.body.style.transition = theme.transitions.default;
     document.body.style.backgroundColor = theme.color.raw;
     document.documentElement.style.backgroundColor = theme.color.raw;
     meta.setAttribute('content', theme.color.raw);
