@@ -22048,6 +22048,7 @@ const AC = (r) => {
             ((u = document.createElement('meta')),
             (u.name = 'theme-color'),
             document.head.appendChild(u)),
+          (document.body.style.transition = c.transitions.default),
           (document.body.style.backgroundColor = c.color.raw),
           (document.documentElement.style.backgroundColor = c.color.raw),
           u.setAttribute('content', c.color.raw),
