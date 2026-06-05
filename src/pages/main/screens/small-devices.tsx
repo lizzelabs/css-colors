@@ -252,6 +252,8 @@ export const SmallDevices = () => {
                 onSelect={onSelectWheelOutput}
                 onVisible={onVisibleWheelColorChange(index)}
                 selected={state.selectedWheelOutputId === theme.id}
+                onDelete={() => {}}
+                onChangeTitle={() => {}}
               />
             ))}
           </Scrollable>

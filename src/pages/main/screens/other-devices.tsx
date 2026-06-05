@@ -183,18 +183,21 @@ export const OtherDevices = () => {
             padding='10px'
             scrollMode='auto'
           >
-            {state.clipboard && (
-              <Color
-                key='clipboard'
-                theme={state.clipboard}
-                onChangeAccent={() => {}}
-                onChangeApplyOn={() => {}}
-                onChangeColorKind={() => {}}
-                onColorChange={() => {}}
-                onSelect={() => {}}
-                onVisible={() => {}}
-              />
-            )}
+            {state.clipboard &&
+              state.clipboard.map((current, index) => (
+                <Color
+                  key={index}
+                  theme={current}
+                  onChangeAccent={() => {}}
+                  onChangeApplyOn={() => {}}
+                  onChangeColorKind={() => {}}
+                  onColorChange={() => {}}
+                  onSelect={() => {}}
+                  onVisible={() => {}}
+                  onChangeTitle={() => {}}
+                  onDelete={() => {}}
+                />
+              ))}
             {state.themes.map((theme, index) => (
               <Color
                 key={theme.id}

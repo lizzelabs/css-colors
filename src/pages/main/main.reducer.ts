@@ -210,7 +210,7 @@ export const MainPageReducer = {
   setClipboard: ({ prevState }, clipboard: ColorTheme) => {
     return {
       ...prevState,
-      clipboard,
+      clipboard: [clipboard],
     };
   },
   updateTheme: ({ prevState }, theme: ColorTheme) => {

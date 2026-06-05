@@ -65,7 +65,7 @@ export const useSlider = ({
   );
 
   const toggleStyle = useCallback(
-    (theme: Theme) =>
+    (_: Theme) =>
       ({
         position: 'absolute',
         touchAction: 'none',

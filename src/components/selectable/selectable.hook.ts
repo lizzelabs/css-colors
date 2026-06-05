@@ -1,11 +1,11 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { SelectableProperties } from './selectable.types';
 import { WithStyle } from '@lizzelabs/react-harmony';
 import { Theme } from '@/theme';
 
 export const useSelectable = (props: SelectableProperties) => {
   const container = useCallback(
-    (theme: Theme) =>
+    (_: Theme) =>
       ({
         alignItems: 'center',
         justifyContent: 'center',
