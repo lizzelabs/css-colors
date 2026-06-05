@@ -9,3 +9,4 @@ export * from './notifications';
 export * from './section';
 export * from './dots';
 export * from './meta';
+export * from './selectable';

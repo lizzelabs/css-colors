@@ -18,9 +18,10 @@ export const useMeta = (_: MetaProperties) => {
     }
 
     document.body.style.transition = theme.transitions.default;
-    document.body.style.backgroundColor = theme.color.raw;
-    document.documentElement.style.backgroundColor = theme.color.raw;
-    meta.setAttribute('content', theme.color.raw);
+    document.body.style.backgroundColor = theme.getCurrentPallete().color.raw;
+    document.documentElement.style.backgroundColor =
+      theme.getCurrentPallete().color.raw;
+    meta.setAttribute('content', theme.getCurrentPallete().color.raw);
 
     return () => {
       document.head.removeChild(meta);

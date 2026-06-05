@@ -1,7 +1,7 @@
 import { ValidColors } from '@/types';
 import { SelectValue } from '../select';
-import { WheelOutputAccents } from '../wheel';
 import { ThemeColorAccents } from '@/theme';
+import { ColorThemeAccents } from '@/hooks';
 
 export const KindColor: SelectValue<ValidColors>[] = [
   {
@@ -31,7 +31,7 @@ export const KindColor: SelectValue<ValidColors>[] = [
   },
 ];
 
-export const ColorAccents: SelectValue<WheelOutputAccents>[] = [
+export const ColorAccents: SelectValue<ColorThemeAccents>[] = [
   {
     id: 'main',
     display: 'Main',
@@ -92,12 +92,57 @@ export const ApplyTo: SelectValue<ThemeColorAccents>[] = [
   },
   {
     id: 'text',
-    display: 'Text',
+    display: 'Primary Text',
     value: 'text',
+  },
+  {
+    id: 'disabled',
+    display: 'Disabled',
+    value: 'disabled',
   },
   {
     id: 'shadow',
     display: 'Shadow',
     value: 'shadow',
+  },
+  {
+    id: 'darkScreen',
+    display: 'Black',
+    value: 'darkScreen',
+  },
+  {
+    id: 'darkScreenText',
+    display: 'Black Text',
+    value: 'darkScreenText',
+  },
+  {
+    id: 'lightScreen',
+    display: 'White',
+    value: 'lightScreen',
+  },
+  {
+    id: 'lightScreenText',
+    display: 'White Text',
+    value: 'lightScreenText',
+  },
+  {
+    id: 'success',
+    display: 'Success',
+    value: 'success',
+  },
+  {
+    id: 'warning',
+    display: 'Warning',
+    value: 'warning',
+  },
+  {
+    id: 'info',
+    display: 'Info',
+    value: 'info',
+  },
+  {
+    id: 'error',
+    display: 'Error',
+    value: 'error',
   },
 ];

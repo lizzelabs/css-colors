@@ -8,7 +8,6 @@ export const makeShadowFromLuminance = (
 ): AnyValidColor => {
   const isDark = luminance.total > 0.5;
   const rgba = makeCurrentColorTo(color, 'RGBA');
-
   const red = isDark ? rgba.red * 0.85 : rgba.red * 0.6;
   const green = isDark ? rgba.green * 0.85 : rgba.green * 0.6;
   const blue = isDark ? rgba.blue * 0.85 : rgba.blue * 0.6;

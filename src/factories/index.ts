@@ -36,6 +36,17 @@ import { makeGlslProgram } from './makeGlslProgram';
 import { makeTexture2D } from './makeTexture2d';
 import { makeInvalidColor } from './makeInvalidColor';
 import { makeLuminance } from './makeLuminance';
+import { makeErrorColor } from './makeErrorColor';
+import { makeSuccessColor } from './makeSuccessColor';
+import { makeWarningColor } from './makeWarningColor';
+import { makeInfoColor } from './makeInfoColor';
+import { makeBlackColor } from './makeBlackColor';
+import { makeWhiteColor } from './makeWhiteColor';
+import { makeRgbaFromLuminance } from './makeRgbaFromLuminance';
+import { takeFromColor } from './takeFromColor';
+import { changeOpacity } from './changeOpacity';
+import { makeLightGreyFromColor } from './makeLightGreyFromColor';
+import { makeDarkGreyFromColor } from './makeDarkGreyFromColor';
 
 export const CssColorsFactories = {
   makeReducer,
@@ -65,6 +76,7 @@ export const CssColorsFactories = {
   makeLuminance,
   makeCssColorString,
   makeTextColorFromLuminance,
+  makeRgbaFromLuminance,
   makeHex,
   makeHSL,
   makeHSLA,
@@ -76,4 +88,14 @@ export const CssColorsFactories = {
   makeTexture2D,
   makeHighlightFromLuminance,
   makeShadowFromLuminance,
+  makeErrorColor,
+  makeInfoColor,
+  makeWarningColor,
+  makeSuccessColor,
+  makeBlackColor,
+  makeWhiteColor,
+  takeFromColor,
+  changeOpacity,
+  makeLightGreyFromColor,
+  makeDarkGreyFromColor,
 };

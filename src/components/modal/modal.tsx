@@ -21,12 +21,12 @@ export const Modal = (props: ModalProperties) => {
       transform='translateY(calc(-50% - 175px), calc(-50% - 175px))'
       padding='20px'
       direction='column'
-      background={(theme: Theme) => theme.color.raw}
+      background={(theme: Theme) => theme.getCurrentPallete().color.raw}
       withStyle={(theme: Theme) => ({
         zIndex: 9999,
         borderRadius: '18px',
-        border: `2px solid ${theme.highlight.raw}`,
-        boxShadow: `2px 1px 3px 3px ${theme.shadow.raw}`,
+        border: `2px solid ${theme.getCurrentPallete().highlight.raw}`,
+        boxShadow: `2px 1px 3px 3px ${theme.getCurrentPallete().shadow.raw}`,
         transition: 'all 0.3s ease-in-out',
         animation: 'fade_in 0.5s ease-in-out',
         '@keyframes fade_in': {
@@ -51,9 +51,9 @@ export const Modal = (props: ModalProperties) => {
           flex='1 0 auto'
           fontSize='0.59rem'
           justifyContent='center'
-          textColor={(theme: Theme) => theme.text.raw}
+          textColor={(theme: Theme) => theme.getCurrentPallete().text.raw}
         >
-          <b>I'm so thankful for your support</b> ❤️
+          <b>I'm thankful for your support</b> ❤️
         </Text>
         <IconButton
           onClick={props.onClose}

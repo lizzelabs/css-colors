@@ -1,5 +1,9 @@
 # 📦 CSS Colors
 
+- Export Color Individually - Theme
+- Edit Title -> Groupped Theme
+- Fix UI of color card
+
 An easy way of generate your colors, whether you just want a color or a system.
 
 ---
@@ -15,7 +19,8 @@ An easy way of generate your colors, whether you just want a color or a system.
 
 ## 📌 Technologies
 
-All of components are made by myself, and the lib for components and styles is just an easy way of do it, 
+All of components are made by myself, and the lib for components and styles is
+just an easy way of do it,
 
 - **@lizzelabs/react-harmony:** Components and styles, animations.
 - **React**
@@ -26,21 +31,10 @@ All of components are made by myself, and the lib for components and styles is j
 
 ## 🏗️ Architecture
 
-├── components
-│   └── componentName
-│        ├── componentName.hook.ts
-│        ├── component.static.ts
-│        ├── component.types.ts
-│        └── component.tsx   
-├── factories
-├── hooks 
-├── icons
-├── pages
-├── theme
-├── types
-├── utils
-└── main.tsx
-
+├── components │ └── componentName │ ├── componentName.hook.ts │ ├──
+component.static.ts │ ├── component.types.ts │ └── component.tsx  
+├── factories ├── hooks ├── icons ├── pages ├── theme ├── types ├── utils └──
+main.tsx
 
 ---
 
@@ -51,5 +45,6 @@ All of components are made by myself, and the lib for components and styles is j
 - Text color generation to each accent.
 - Shadow color generation to each accent.
 - Highlight color generation to each accent.
-- Generation of colors, since monocromatic until fullspectrum color generation or you also are totally able to inform how much space you want in each picker.
+- Generation of colors, since monocromatic until fullspectrum color generation
+  or you also are totally able to inform how much space you want in each picker.
 - Responsible, you can access in any screen.

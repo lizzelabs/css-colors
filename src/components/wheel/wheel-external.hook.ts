@@ -1,13 +1,9 @@
 import { AnyValidColor, Position, Size } from '@/types';
 import { useCallback } from 'react';
-import {
-  Picker,
-  WheelComputedSize,
-  WheelOutput,
-  WheelOutputAccents,
-} from './wheel.types';
+import { Picker, WheelComputedSize } from './wheel.types';
 import { CssColorsUtils } from '@/utils';
 import { CssColorsFactories } from '@/factories';
+import { ColorTheme, ColorThemeAccents } from '@/hooks';
 
 export const useWheel = () => {
   const calculeSizes = useCallback(({ width, height }: Size) => {
@@ -97,7 +93,7 @@ export const useWheel = () => {
   );
 
   const isColorPresent = useCallback(
-    (color: AnyValidColor, output: WheelOutput[]): boolean => {
+    (color: AnyValidColor, output: ColorTheme[]): boolean => {
       if (output.length <= 0) {
         return true;
       }
@@ -112,7 +108,7 @@ export const useWheel = () => {
         '700',
         '800',
         '900',
-      ] as WheelOutputAccents[];
+      ] as ColorThemeAccents[];
 
       const source = output.flatMap((current) =>
         accents.flatMap((accent) => [

@@ -1,5 +1,4 @@
-import { ThemeColor, ThemeColorAccents } from '@/theme';
-import { PartialRequired, Position, RGBA, ValidColors } from '@/types';
+import { AnyValidColor, PartialRequired, Position, RGBA } from '@/types';
 import { RefObject } from 'react';
 
 export interface Picker extends Position {
@@ -15,9 +14,12 @@ export interface WheelComputedSize {
   center: Position;
   totalSize: number;
 }
-
+export interface WheelColor {
+  color: AnyValidColor;
+  id: string;
+}
 export interface WheelProps {
-  onChange: (output: WheelOutput[]) => void;
+  onChange: (output: WheelColor[]) => void;
   onPickersMove: (pickers: Picker[]) => void;
   onSelectedPickerChange: (index: number, id?: string) => void;
   distanceBetweenEachPicker: number;
@@ -29,27 +31,6 @@ export interface WheelProps {
   atRow?: string;
   freeMove?: boolean;
 }
-
-export interface WheelOutput {
-  id: string;
-  main: ThemeColor;
-  '100': ThemeColor;
-  '200': ThemeColor;
-  '300': ThemeColor;
-  '400': ThemeColor;
-  '600': ThemeColor;
-  '700': ThemeColor;
-  '800': ThemeColor;
-  '900': ThemeColor;
-  kind: ValidColors;
-  applyTo: ThemeColorAccents;
-  activeAccent: WheelOutputAccents;
-}
-
-export type WheelOutputAccents = keyof Omit<
-  WheelOutput,
-  'id' | 'activeAccent' | 'applyTo' | 'kind'
->;
 
 export interface DrawInput {
   props: WheelProps;

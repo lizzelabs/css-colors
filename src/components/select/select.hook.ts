@@ -14,19 +14,21 @@ export const useSelect = <T>(props: SelectProps<T>) => {
     [props.value, props.options],
   );
 
+  const pallete = useMemo(() => theme.getCurrentPallete(), [theme]);
+
   const current = useMemo(
     () => ({
-      color: props.color || theme.color.raw,
-      text: props.text || theme.text.raw,
-      highlight: props.highlight || theme.highlight.raw,
+      color: props.color || pallete.color.raw,
+      text: props.text || pallete.text.raw,
+      highlight: props.highlight || pallete.highlight.raw,
     }),
     [
       props.color,
       props.text,
       props.highlight,
-      theme.color.raw,
-      theme.text.raw,
-      theme.highlight.raw,
+      pallete.color.raw,
+      pallete.text.raw,
+      pallete.highlight.raw,
     ],
   );
 

@@ -2,48 +2,51 @@ import { CssColorsUtils } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
 export const useClipboard = (): string => {
-  const prev = useRef<string | null>(null);
+  const intervalId = useRef<any>(null);
   const [clipboard, setClipboard] = useState('');
 
-  useEffect(() => {
-    if (!navigator.clipboard || !navigator.clipboard.readText) {
-      console.info('Clipboard not supported here.');
+  useEffect(function onPaste() {
+    const onPaste = (event) => {
+      event.preventDefault();
+      setClipboard(event.clipboardData.getData('text'));
+    };
+
+    document.addEventListener('paste', onPaste);
+
+    return () => {
+      document.removeEventListener('paste', onPaste);
+    };
+  }, []);
+
+  useEffect(function onFocus() {
+    const browser = CssColorsUtils.getBrowser();
+
+    if (browser !== 'chrome') {
       return;
     }
 
-    const paste = (event: ClipboardEvent) => {
-      const text = event.clipboardData?.getData('text');
-      setClipboard(text);
-    };
+    const onFocus = async () => {
+      try {
+        if (document.hasFocus() === false) {
+          return;
+        }
 
-    const readClipboard = () => {
-      if (document.hasFocus()) {
-        navigator.clipboard
-          .readText()
-          .then((value) => {
-            if (value !== prev.current) {
-              prev.current = value;
-              setClipboard(value);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        clearInterval(intervalId.current);
+        intervalId.current = setInterval(async () => {
+          const text = await navigator.clipboard.readText();
+          setClipboard((prev) => (prev !== text ? text : prev));
+        }, 500);
+      } catch {
+        console.warn(
+          'Auto-paste blocked on focus. This is expected in some browsers',
+        );
       }
     };
 
-    const browser = CssColorsUtils.getBrowser();
-    let interval = 0;
-
-    if (browser === 'chrome') {
-      interval = setInterval(readClipboard, 500);
-    }
-
-    window.addEventListener('paste', paste);
+    window.addEventListener('focus', onFocus);
 
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('paste', paste);
+      window.removeEventListener('focus', onFocus);
     };
   }, []);
 

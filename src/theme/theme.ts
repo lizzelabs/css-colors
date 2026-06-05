@@ -1,6 +1,7 @@
 import { Theme } from './theme.types';
 
 export const THEME_SIZES: Partial<Theme> = Object.freeze({
+  pallete: 'primary',
   zIndex: {
     tooltip: 10,
     selectItems: 50,
@@ -21,6 +22,35 @@ export const THEME_SIZES: Partial<Theme> = Object.freeze({
   media: {
     smallDevices: '(max-height: 701px)',
     otherDevices: '(min-height: 702px)',
+  },
+  getCurrentPallete() {
+    if (this.pallete === 'light') {
+      return {
+        color: this.lightScreen,
+        text: this.lightScreenText,
+        highlight: this.lightGrey,
+        contrast: this.color,
+        shadow: this.shadow,
+      };
+    }
+
+    if (this.pallete === 'dark') {
+      return {
+        color: this.darkScreen,
+        text: this.darkScreenText,
+        highlight: this.darkGrey,
+        contrast: this.color,
+        shadow: this.shadow,
+      };
+    }
+
+    return {
+      color: this.color,
+      text: this.text,
+      highlight: this.highlight,
+      contrast: this.highlight,
+      shadow: this.shadow,
+    };
   },
 });
 

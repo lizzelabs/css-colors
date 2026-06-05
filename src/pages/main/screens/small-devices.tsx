@@ -41,11 +41,17 @@ export const SmallDevices = () => {
   } = useMain();
   const query = useCallback((theme: Theme) => theme.media.smallDevices, []);
   const background = useCallback(
-    (theme: Theme) => ({ background: theme.color.raw }),
+    (theme: Theme) => ({ background: theme.getCurrentPallete().color.raw }),
     [],
   );
-  const color = useCallback((theme: Theme) => theme.color.raw, []);
-  const highlight = useCallback((theme: Theme) => theme.highlight.raw, []);
+  const color = useCallback(
+    (theme: Theme) => theme.getCurrentPallete().color.raw,
+    [],
+  );
+  const highlight = useCallback(
+    (theme: Theme) => theme.getCurrentPallete().highlight.raw,
+    [],
+  );
   const gradient = useMemo(
     () => [
       'rgba(0, 0, 0, 0.4)',
@@ -231,7 +237,7 @@ export const SmallDevices = () => {
             scrollSnap='x mandatory'
             behavior='instant'
             highlight={(theme: Theme) => theme.highlight.raw}
-            primary={(theme: Theme) => theme.color.raw}
+            primary={(theme: Theme) => theme.getCurrentPallete().color.raw}
             gap='20px'
             padding='0 15px'
           >

@@ -1,11 +1,11 @@
 import {
   Picker,
   SelectValue,
+  WheelColor,
   WheelComputedSize,
-  WheelOutput,
-  WheelOutputAccents,
 } from '@/components';
-import { ThemeColorAccents } from '@/theme';
+import { ColorTheme, ColorThemeAccents } from '@/hooks';
+import { Theme, ThemeColorAccents } from '@/theme';
 import { AnyValidColor, State, ValidColors } from '@/types';
 import { RefObject } from 'react';
 
@@ -33,14 +33,17 @@ export interface MainPageState extends State {
   distanceBetweenEachPicker: number;
   darkness: number;
   pickers: Picker[];
-  themes: WheelOutput[];
+  themes: ColorTheme[];
   selectedPickerIndex: number;
   selectedPickerId?: string;
   selectedWheelOutputId?: string;
   visibleColorIndex: number;
+  clipboard?: ColorTheme[];
+  pallete: 'primary' | 'light' | 'dark';
 }
 
 export type UseMain = {
+  selectedTheme: Theme;
   colorsSection: RefObject<HTMLElement>;
   wheelSection: RefObject<HTMLElement>;
   settingsSection: RefObject<HTMLElement>;
@@ -49,26 +52,29 @@ export type UseMain = {
   computed: WheelComputedSize;
   onModeChange: (mode: SelectValue<Mode>) => void;
   onSettingsClick: () => void;
+  onSelectPallete: (pallete: 'light' | 'dark' | 'primary') => () => void;
   onPickerNumberChange: (value: number) => void;
   onSpaceBetweenEachPickerChange: (value: number) => void;
   onDarknessChange: (value: number) => void;
-  onEmitWheelOutput: (value: WheelOutput[]) => void;
+  onEmitWheelOutput: (value: WheelColor[]) => void;
   onChangeWheelOutputAccent: (
-    theme: WheelOutput,
-    activeAccent: WheelOutputAccents,
+    theme: ColorTheme,
+    activeAccent: ColorThemeAccents,
   ) => void;
   onChangeWheelOutputApplyOn: (
-    theme: WheelOutput,
+    theme: ColorTheme,
     applyOn: ThemeColorAccents,
   ) => void;
-  onChangeWheelOutputColorKind: (theme: WheelOutput, kind: ValidColors) => void;
-  onChangeWheelOutputColor: (theme: WheelOutput, color: AnyValidColor) => void;
+  onChangeWheelOutputColorKind: (theme: ColorTheme, kind: ValidColors) => void;
+  onChangeWheelOutputColor: (theme: ColorTheme, color: AnyValidColor) => void;
   onSelectedPickerChange: (
     selectedPickerIndex: number,
     selectedPickerId?: string,
   ) => void;
   onPickersMove: (value: Picker[]) => void;
-  onSelectWheelOutput: (value: WheelOutput) => void;
+  onSelectWheelOutput: (value: ColorTheme) => void;
   onVisibleWheelColorChange: (value: number) => () => void;
+  onChangeThemeTitle: (theme: ColorTheme) => void;
+  onDeleteTheme: (theme: ColorTheme) => void;
   goTo: (ref: RefObject<HTMLElement | null>) => () => void;
 };

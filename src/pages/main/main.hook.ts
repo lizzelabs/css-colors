@@ -14,11 +14,16 @@ import {
   SelectValue,
   useNotification,
   useWheel,
-  WheelOutput,
-  WheelOutputAccents,
+  WheelColor,
 } from '@/components';
 import { CssColorsFactories } from '@/factories';
-import { useClipboard, useObserveResize } from '@/hooks';
+import {
+  ColorTheme,
+  ColorThemeAccents,
+  useClipboard,
+  useColors,
+  useObserveResize,
+} from '@/hooks';
 import { Theme, THEME_SIZES, ThemeColorAccents } from '@/theme';
 import { AnyValidColor, ValidColors } from '@/types';
 import { usePieceProvider } from '@lizzelabs/react-harmony';
@@ -40,12 +45,13 @@ export const useMain = (): UseMain => {
     height: 250,
   });
   const wheel = useWheel();
+  const colors = useColors();
   const computed = useMemo(
     () => wheel.calculeSizes({ width, height }),
     [width, height, wheel.calculeSizes],
   );
 
-  const { updateTheme } = usePieceProvider();
+  const { updateTheme, theme } = usePieceProvider();
 
   const [state, dispatch] = useReducer(
     CssColorsFactories.makeReducer<MainPageState, any, typeof MainPageReducer>(
@@ -53,6 +59,7 @@ export const useMain = (): UseMain => {
       {},
     ),
     {
+      pallete: 'primary',
       selectedPickerIndex: -1,
       selectedPickerId: undefined,
       darkness: 0.5,
@@ -83,9 +90,12 @@ export const useMain = (): UseMain => {
             {} as Theme,
             THEME_SIZES,
             selectedWheelColor[selectedWheelColor?.activeAccent || 'main'],
+            {
+              pallete: state.pallete,
+            },
           )
         : undefined,
-    [selectedWheelColor],
+    [selectedWheelColor, state.pallete],
   );
 
   const goTo = useCallback(
@@ -101,8 +111,13 @@ export const useMain = (): UseMain => {
     [],
   );
 
-  const onEmitWheelOutput = useCallback((value: WheelOutput[]) => {
-    dispatch({ type: 'onEmitWheelOutput', value });
+  const onEmitWheelOutput = useCallback((value: WheelColor[]) => {
+    dispatch({
+      type: 'onEmitWheelOutput',
+      value: value.map((current, index) =>
+        colors.makeColorAccents(current, index),
+      ),
+    });
   }, []);
 
   const onModeChange = useCallback(
@@ -138,7 +153,7 @@ export const useMain = (): UseMain => {
   }, []);
 
   const onChangeWheelOutputAccent = useCallback(
-    (theme: WheelOutput, activeAccent: WheelOutputAccents) => {
+    (theme: ColorTheme, activeAccent: ColorThemeAccents) => {
       dispatch({
         type: 'onChangeWheelOutputAccent',
         value: { theme, activeAccent },
@@ -148,7 +163,7 @@ export const useMain = (): UseMain => {
   );
 
   const onChangeWheelOutputApplyOn = useCallback(
-    (theme: WheelOutput, applyOn: ThemeColorAccents) => {
+    (theme: ColorTheme, applyOn: ThemeColorAccents) => {
       dispatch({
         type: 'onChangeWheelOutputApplyOn',
         value: { theme, applyOn },
@@ -158,7 +173,7 @@ export const useMain = (): UseMain => {
   );
 
   const onChangeWheelOutputColorKind = useCallback(
-    (theme: WheelOutput, kind: ValidColors) => {
+    (theme: ColorTheme, kind: ValidColors) => {
       dispatch({
         type: 'onChangeWheelOutputColorKind',
         value: { theme, kind },
@@ -168,7 +183,7 @@ export const useMain = (): UseMain => {
   );
 
   const onChangeWheelOutputColor = useCallback(
-    (theme: WheelOutput, color: AnyValidColor) => {
+    (theme: ColorTheme, color: AnyValidColor) => {
       dispatch({
         type: 'onChangeColor',
         value: { theme, color },
@@ -177,7 +192,7 @@ export const useMain = (): UseMain => {
     [],
   );
 
-  const onSelectWheelOutput = useCallback((value: WheelOutput) => {
+  const onSelectWheelOutput = useCallback((value: ColorTheme) => {
     dispatch({ type: 'onSelectWheelOutput', value: value.id });
   }, []);
 
@@ -198,6 +213,29 @@ export const useMain = (): UseMain => {
   const onVisibleWheelColorChange = useCallback(
     (value: number) => () => {
       dispatch({ type: 'setVisibleWheelColor', value });
+    },
+    [],
+  );
+
+  const onDeleteTheme = useCallback(
+    (value: ColorTheme) => {
+      if (state.themes.length <= 1) {
+        info('You cannot delete the unique theme!');
+        return;
+      }
+
+      dispatch({ type: 'deleteTheme', value });
+    },
+    [state.themes, info],
+  );
+
+  const onChangeThemeTitle = useCallback((theme: ColorTheme) => {
+    dispatch({ type: 'updateTheme', value: theme });
+  }, []);
+
+  const onSelectPallete = useCallback(
+    (value: 'primary' | 'light' | 'dark') => () => {
+      dispatch({ type: 'updatePallete', value });
     },
     [],
   );
@@ -254,6 +292,10 @@ export const useMain = (): UseMain => {
 
   useEffect(
     function onClipboardChange() {
+      if (!clipboard) {
+        return;
+      }
+
       const color = CssColorsFactories.makeColorFromString(clipboard);
 
       if (color.type === 'INVALID') {
@@ -270,16 +312,22 @@ export const useMain = (): UseMain => {
 
       pasteColorPrevious.current = color.raw;
 
-      info('I found a color on your clipboard, Do you want to paste it ?', {
-        permanent: true,
-        action: pasteColor(color),
-        actionName: 'Paste it!',
+      dispatch({
+        type: 'setClipboard',
+        value: colors.makeColorAccents(
+          {
+            color,
+            id: 'clipboard',
+          },
+          'Clipboard',
+        ),
       });
     },
     [clipboard, info, state.themes, pasteColor],
   );
 
   return {
+    selectedTheme: selectedTheme || (theme as Theme),
     settingsSection,
     colorsSection,
     wheelSection,
@@ -289,6 +337,7 @@ export const useMain = (): UseMain => {
     onModeChange,
     onSettingsClick,
     onPickerNumberChange,
+    onSelectPallete,
     onSpaceBetweenEachPickerChange,
     onDarknessChange,
     onEmitWheelOutput,
@@ -300,6 +349,8 @@ export const useMain = (): UseMain => {
     onPickersMove,
     onSelectWheelOutput,
     onVisibleWheelColorChange,
+    onChangeThemeTitle,
+    onDeleteTheme,
     goTo,
   };
 };

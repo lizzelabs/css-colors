@@ -1,15 +1,11 @@
-import {
-  Picker,
-  SelectValue,
-  WheelOutput,
-  WheelOutputAccents,
-} from '@/components';
+import { Picker, SelectValue } from '@/components';
 import { MainPageState, Mode } from './main.types';
 import { AnyValidColor, Position, Reducer, ValidColors } from '@/types';
 import { Modes } from './main.static';
 import { ThemeColorAccents } from '@/theme';
 import { CssColorsUtils } from '@/utils';
 import { CssColorsFactories } from '@/factories';
+import { ColorTheme, ColorThemeAccents } from '@/hooks';
 
 export const MainPageReducer = {
   changeMode: ({ prevState }, mode: SelectValue<Mode>) => {
@@ -62,11 +58,11 @@ export const MainPageReducer = {
       darkness,
     };
   },
-  onEmitWheelOutput: ({ prevState }, themes: WheelOutput[]) => {
+  onEmitWheelOutput: ({ prevState }, colors: ColorTheme[]) => {
     return {
       ...prevState,
-      themes,
-      selectedWheelOutputId: themes[0].id,
+      themes: colors,
+      selectedWheelOutputId: colors[0].id,
     };
   },
   onChangeWheelOutputAccent: (
@@ -74,7 +70,7 @@ export const MainPageReducer = {
     {
       activeAccent,
       theme,
-    }: { activeAccent: WheelOutputAccents; theme: WheelOutput },
+    }: { activeAccent: ColorThemeAccents; theme: ColorTheme },
   ) => {
     return {
       ...prevState,
@@ -87,7 +83,7 @@ export const MainPageReducer = {
   },
   onChangeWheelOutputApplyOn: (
     { prevState },
-    { theme, applyOn }: { applyOn: ThemeColorAccents; theme: WheelOutput },
+    { theme, applyOn }: { applyOn: ThemeColorAccents; theme: ColorTheme },
   ) => {
     return {
       ...prevState,
@@ -100,7 +96,7 @@ export const MainPageReducer = {
   },
   onChangeWheelOutputColorKind: (
     { prevState },
-    { kind, theme }: { theme: WheelOutput; kind: ValidColors },
+    { kind, theme }: { theme: ColorTheme; kind: ValidColors },
   ) => {
     const themeAccents = [
       '100',
@@ -112,7 +108,7 @@ export const MainPageReducer = {
       '700',
       '800',
       '900',
-    ] satisfies WheelOutputAccents[];
+    ] satisfies ColorThemeAccents[];
     const apply = ['color', 'highlight', 'text', 'shadow'];
 
     return {
@@ -128,7 +124,7 @@ export const MainPageReducer = {
                     (applyObj, currentApply) => ({
                       ...applyObj,
                       [currentApply]: CssColorsFactories.makeCurrentColorTo(
-                        current[key as keyof WheelOutput][
+                        current[key as keyof ColorTheme][
                           currentApply as any
                         ] as AnyValidColor,
                         kind,
@@ -147,7 +143,7 @@ export const MainPageReducer = {
   },
   onChangeColor: (
     { prevState },
-    { theme, color }: { theme: WheelOutput; color: AnyValidColor },
+    { theme, color }: { theme: ColorTheme; color: AnyValidColor },
   ) => {
     return {
       ...prevState,
@@ -209,6 +205,38 @@ export const MainPageReducer = {
         index === 0 ? { ...picker, ...coordinate } : picker,
       ),
       darkness,
+    };
+  },
+  setClipboard: ({ prevState }, clipboard: ColorTheme) => {
+    return {
+      ...prevState,
+      clipboard,
+    };
+  },
+  updateTheme: ({ prevState }, theme: ColorTheme) => {
+    return {
+      ...prevState,
+      themes: prevState.themes.map((current) =>
+        theme.id === current.id ? theme : current,
+      ),
+    };
+  },
+  deleteTheme: ({ prevState }, theme: ColorTheme) => {
+    if (prevState.themes.length <= 1) {
+      return prevState;
+    }
+
+    return {
+      ...prevState,
+      themes: prevState.themes.filter((current) => current.id !== theme.id),
+      pickers: prevState.pickers.filter((current) => current.id !== theme.id),
+      mode: Modes.find((current) => current.id === 'custom'),
+    };
+  },
+  updatePallete: ({ prevState }, pallete: 'light' | 'dark' | 'primary') => {
+    return {
+      ...prevState,
+      pallete,
     };
   },
 } satisfies Reducer<MainPageState>;

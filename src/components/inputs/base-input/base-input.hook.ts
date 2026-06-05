@@ -4,15 +4,17 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { CssColorsUtils } from '@/utils';
 import { BaseInputProps, BaseInputValue } from './base-input.types';
 import { Theme } from '@/theme';
-import { WithStyle } from '@lizzelabs/react-harmony';
+import { usePieceProvider, WithStyle } from '@lizzelabs/react-harmony';
 
 export const useBaseInput = <Type extends 'text' | 'number'>(
   props: BaseInputProps<Type>,
 ) => {
+  const { theme } = usePieceProvider<Theme>();
   const labelRef = useRef<HTMLInputElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const labelId = useMemo(() => CssColorsUtils.newId(), []);
   const id = useMemo(() => CssColorsUtils.newId(), []);
+  const pallete = useMemo(() => theme.getCurrentPallete(), []);
 
   const containerStyle = useCallback(
     () =>
@@ -44,8 +46,8 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
         cursor: 'default',
         padding: `${theme.padding.small}px 0px`,
         paddingLeft: '5px',
-        background: props.highlight ? props.highlight : theme.highlight.raw,
-        color: props.text || theme.text.raw,
+        background: props.highlight ? props.highlight : pallete.contrast.raw,
+        color: props.text || pallete.text.raw,
         ...(props.disableLeftRadius
           ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
           : {}),
@@ -62,6 +64,7 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
       props.disableLeftRadius,
       props.disableRightRadius,
       props.labelAlign,
+      pallete,
     ],
   );
 
@@ -72,7 +75,7 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
       fontSize: `${theme.textSize.small}rem`,
       fontWeight: 'bold',
       background: 'transparent',
-      touchAction: 'none',
+      touchAction: 'manipulation',
       textAlign: props.textAlign ? props.textAlign : 'center',
       boxShadow: 'none',
       outline: 'none',
@@ -81,7 +84,7 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
       padding: `${theme.padding.small}px 0px`,
       paddingLeft: '5px',
       borderRadius: '3px',
-      color: props.text || theme.text.raw,
+      color: props.text || pallete.text.raw,
       ...(props.disableLeftRadius
         ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
         : {}),
@@ -92,7 +95,7 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
       '-webkit-appearance': 'none',
       '-moz-appearence': 'none',
       '&:disabled': {
-        background: `${props.color} !important`,
+        background: `${props.color || pallete.shadow} !important`,
         cursor: 'default',
       },
       '&::-webkit-outer-spin-button': {
@@ -106,23 +109,23 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
         '-webkit-appearance': 'none',
       },
       '&:-internal-autofill-selected': {
-        background: props.highlight ? props.highlight : theme.highlight.raw,
+        background: props.highlight ? props.highlight : pallete.highlight.raw,
       },
       '&:hover': {
-        background: props.highlight ? props.highlight : theme.highlight.raw,
+        background: props.highlight ? props.highlight : pallete.highlight.raw,
       },
       '&:focus': {
-        background: props.highlight ? props.highlight : theme.highlight.raw,
+        background: props.highlight ? props.highlight : pallete.highlight.raw,
         outline: 'none',
         boxShadow: 'none',
       },
       '&:focus-visible': {
-        background: props.highlight ? props.highlight : theme.highlight.raw,
+        background: props.highlight ? props.highlight : pallete.highlight.raw,
         outline: 'none',
         boxShadow: 'none',
       },
       '&:active': {
-        background: props.highlight ? props.highlight : theme.highlight.raw,
+        background: props.highlight ? props.highlight : pallete.highlight.raw,
       },
     }),
     [
@@ -130,6 +133,10 @@ export const useBaseInput = <Type extends 'text' | 'number'>(
       props.disableLeftRadius,
       props.disableRightRadius,
       props.textAlign,
+      pallete.text.raw,
+      pallete.highlight.raw,
+      pallete.contrast.raw,
+      pallete.shadow.raw,
     ],
   );
 

@@ -8,3 +8,6 @@ export * from './down';
 export * from './up';
 export * from './linkedin';
 export * from './donate';
+export * from './dark';
+export * from './light';
+export * from './revert';

@@ -1,7 +1,7 @@
-import { WheelOutputAccents } from './wheel.types';
+import { ColorThemeAccents } from './types';
 
 export const LIGHTNESS_MAP: Record<
-  Exclude<WheelOutputAccents, 'main'>,
+  Exclude<ColorThemeAccents, 'main'>,
   number
 > = {
   100: 0.9,
@@ -15,7 +15,7 @@ export const LIGHTNESS_MAP: Record<
 };
 
 export const SATURATION_MAP: Record<
-  Exclude<WheelOutputAccents, 'main'>,
+  Exclude<ColorThemeAccents, 'main'>,
   number
 > = {
   100: 0.6,

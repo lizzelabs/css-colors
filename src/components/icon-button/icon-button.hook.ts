@@ -5,18 +5,19 @@ import { useMemo } from 'react';
 
 export const useIconButton = (props: IconButtonProps) => {
   const { theme } = usePieceProvider<Theme>();
+  const pallete = useMemo(() => theme.getCurrentPallete(), [theme]);
   const current = useMemo(
     () => ({
-      color: props.color || theme.color.raw,
-      text: props.text || theme.text.raw,
-      highlight: props.highlight || theme.highlight.raw,
+      color: props.color || pallete.color.raw,
+      text: props.text || pallete.text.raw,
+      highlight: props.highlight || pallete.highlight.raw,
     }),
     [
       props.color,
       props.text,
-      theme.color.raw,
-      theme.text.raw,
-      theme.highlight.raw,
+      pallete.color.raw,
+      pallete.text.raw,
+      pallete.highlight.raw,
     ],
   );
 
@@ -26,8 +27,7 @@ export const useIconButton = (props: IconButtonProps) => {
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
-        flex: `0 0 ${props.noPadding ? props.size : (props.size || 0) + 10}px`,
-        padding: props.noPadding ? undefined : '10px',
+        flex: `0 0 ${(props.size || 0) + 10}px`,
         background: current.color,
         color: current.text,
         fontSize: `${Math.round(props.size * 0.7)}px`,

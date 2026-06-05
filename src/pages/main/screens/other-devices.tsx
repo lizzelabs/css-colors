@@ -1,19 +1,20 @@
 import { Media, Piece, Scrollable, WithStyle } from '@lizzelabs/react-harmony';
 import { Theme } from '@/theme';
 import {
-  BaseInput,
   Color,
   IconButton,
   Section,
   Select,
+  Selectable,
   Slider,
   Wheel,
 } from '@/components';
 import { Modes } from '../main.static';
-import { Close, Left, Settings } from '@/icons';
+import { Close, Revert, Settings } from '@/icons';
 import { useCallback, useMemo } from 'react';
 import { Signature } from '@/components/signature';
 import { useMain } from '../main.hook';
+import { SettingsScreen } from './settings-screen';
 
 export const OtherDevices = () => {
   const {
@@ -25,6 +26,7 @@ export const OtherDevices = () => {
     onDarknessChange,
     wheelContainer,
     computed,
+    selectedTheme,
     onEmitWheelOutput,
     onSelectedPickerChange,
     onPickersMove,
@@ -36,11 +38,15 @@ export const OtherDevices = () => {
     onChangeWheelOutputColor,
     onSelectWheelOutput,
     onVisibleWheelColorChange,
+    onSelectPallete,
+    onChangeThemeTitle,
+    onDeleteTheme,
   } = useMain();
 
   const query = useCallback((theme: Theme) => theme.media.otherDevices, []);
   const style = useCallback(
-    (theme: Theme) => ({ background: theme.color.raw }) satisfies WithStyle,
+    (theme: Theme) =>
+      ({ background: theme.getCurrentPallete().color.raw }) satisfies WithStyle,
     [],
   );
 
@@ -72,10 +78,36 @@ export const OtherDevices = () => {
       >
         <Section
           ref={wheelSection}
-          contentRows='50px 50px calc(100% - 435px) 300px 35px'
+          contentRows='30px 50px 50px 30px calc(100% - 545px) 350px 35px'
         >
+          <Piece atRow={1}>
+            <Selectable
+              label='Primary Pallete'
+              text={selectedTheme.text?.raw}
+              color={selectedTheme.color?.raw}
+              highlight={selectedTheme.highlight?.raw}
+              active={state.pallete === 'primary'}
+              onClick={onSelectPallete('primary')}
+            />
+            <Selectable
+              label='Light Pallete'
+              text={selectedTheme.lightScreenText?.raw}
+              color={selectedTheme.lightScreen?.raw}
+              highlight={selectedTheme.lightGrey?.raw}
+              active={state.pallete === 'light'}
+              onClick={onSelectPallete('light')}
+            ></Selectable>
+            <Selectable
+              label='Dark Pallete'
+              text={selectedTheme.darkScreenText?.raw}
+              color={selectedTheme.darkScreen?.raw}
+              highlight={selectedTheme.darkGrey?.raw}
+              active={state.pallete === 'dark'}
+              onClick={onSelectPallete('dark')}
+            ></Selectable>
+          </Piece>
           <Piece
-            atRow={1}
+            atRow={2}
             borderBottom={(theme: Theme) => `1px solid ${theme.highlight.raw}`}
           >
             <Select
@@ -95,7 +127,7 @@ export const OtherDevices = () => {
             kind='column'
             direction='column'
             padding='10px'
-            atRow={2}
+            atRow={3}
           >
             <Slider
               direction='horizontal'
@@ -110,8 +142,25 @@ export const OtherDevices = () => {
             ></Slider>
           </Piece>
           <Piece
+            atRow={4}
+            padding='10px'
+          >
+            <Piece justifyContent='start'></Piece>
+            <Piece
+              alignItems='center'
+              justifyContent='end'
+            >
+              <IconButton
+                size={20}
+                round={false}
+              >
+                <Revert />
+              </IconButton>
+            </Piece>
+          </Piece>
+          <Piece
             ref={wheelContainer}
-            atRow={3}
+            atRow={5}
           >
             <Wheel
               pickers={state.pickers}
@@ -127,13 +176,25 @@ export const OtherDevices = () => {
             ></Wheel>
           </Piece>
           <Scrollable
-            atRow={4}
+            atRow={6}
             horizontal
             scrollSnap='x mandatory'
-            margin='0 0 10px 0'
             gap='20px'
-            padding='0 15px'
+            padding='10px'
+            scrollMode='auto'
           >
+            {state.clipboard && (
+              <Color
+                key='clipboard'
+                theme={state.clipboard}
+                onChangeAccent={() => {}}
+                onChangeApplyOn={() => {}}
+                onChangeColorKind={() => {}}
+                onColorChange={() => {}}
+                onSelect={() => {}}
+                onVisible={() => {}}
+              />
+            )}
             {state.themes.map((theme, index) => (
               <Color
                 key={theme.id}
@@ -144,51 +205,22 @@ export const OtherDevices = () => {
                 onColorChange={onChangeWheelOutputColor}
                 onSelect={onSelectWheelOutput}
                 onVisible={onVisibleWheelColorChange(index)}
+                onChangeTitle={onChangeThemeTitle}
+                onDelete={onDeleteTheme}
                 selected={state.selectedWheelOutputId === theme.id}
               />
             ))}
           </Scrollable>
-          <Signature atRow={5} />
+          <Signature atRow={7} />
         </Section>
-        <Section
-          ref={settingsSection}
-          contentRows='50px 1fr'
-        >
-          <IconButton
-            size={24}
-            round
-            onClick={goTo(wheelSection)}
-          >
-            <Left />
-          </IconButton>
-          <Piece
-            atRow={2}
-            direction='column'
-            justifyContent='center'
-            alignItems='center'
-          >
-            <BaseInput
-              type='number'
-              label='Pickers'
-              value={state.numberOfPickers}
-              onChange={onPickerNumberChange as any}
-              disableLeftRadius
-              disableRightRadius
-              flex='0 0 70px'
-              width='90%'
-            />
-            <BaseInput
-              type='number'
-              label='Space between each one'
-              value={state.distanceBetweenEachPicker}
-              onChange={onSpaceBetweenEachPickerChange as any}
-              disableLeftRadius
-              disableRightRadius
-              flex='0 0 70px'
-              width='90%'
-            />
-          </Piece>
-        </Section>
+        <SettingsScreen
+          settingsSection={settingsSection}
+          wheelSection={wheelSection}
+          goTo={goTo}
+          state={state}
+          onSpaceBetweenEachPickerChange={onSpaceBetweenEachPickerChange}
+          onPickerNumberChange={onPickerNumberChange}
+        />
       </Scrollable>
     </Media>
   );

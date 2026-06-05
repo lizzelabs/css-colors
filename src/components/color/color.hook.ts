@@ -1,105 +1,19 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { ColorProps } from './color.types';
-import { WheelOutputAccents } from '../wheel';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ColorProps, UseColorResult } from './color.types';
 import { SelectValue } from '../select';
-import { Theme, ThemeColorAccents } from '@/theme';
+import { exportTheme, ThemeColorAccents } from '@/theme';
 import { AnyValidColor, ValidColors } from '@/types';
 import { ApplyTo, ColorAccents, KindColor } from './color.static';
 import { useNotification } from '../notifications';
-import { CssColorsFactories } from '@/factories';
-import { WithStyle } from '@lizzelabs/react-harmony';
+import { ColorThemeAccents } from '@/hooks';
 
-export const useColor = (props: ColorProps) => {
+export const useColor = (props: ColorProps): UseColorResult => {
   const containerRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const [mode, setMode] = useState<'dark' | 'light'>(
+    props.theme[props.theme.activeAccent].default,
+  );
   const { info } = useNotification();
-
-  const current = useMemo(
-    () => props.theme[props.theme.activeAccent],
-    [props.theme, props.theme.activeAccent],
-  );
-
-  const containerStyle = useMemo(
-    () =>
-      ({
-        containerType: 'inline-size',
-        containerName: 'card',
-        position: 'relative',
-        cursor: 'pointer',
-        flex: '1 0 250px',
-        maxWidth: '500px',
-        margin: '0 auto',
-        background: current.color.raw,
-        borderRadius: '15px',
-        boxShadow: props.selected
-          ? 'none'
-          : `5px 5px 10px 0px rgba(0, 0, 0, 0.2)`,
-        border: props.selected ? `5px solid ${current.shadow.raw}` : 'none',
-        boxSizing: 'content-box',
-      }) satisfies WithStyle,
-    [current, props.selected],
-  );
-
-  const contentStyle = useMemo(
-    () =>
-      ({
-        '@container card (max-width: 399px)': {
-          flexDirection: 'column',
-        },
-        '@container card (min-width: 400px)': {
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        },
-      }) satisfies WithStyle,
-    [],
-  );
-
-  const rowSelectsStyle = useMemo(
-    () =>
-      ({
-        height: '50px',
-        width: '100%',
-        '@container card (max-width: 399px)': {
-          flexDirection: 'column',
-        },
-        '@container card (min-width: 400px)': {
-          flexDirection: 'row',
-        },
-      }) satisfies WithStyle,
-    [],
-  );
-
-  const rowInputStyle = useCallback(
-    (theme: Theme) => ({
-      padding: `${theme.padding.small}px`,
-      '@container card (max-width: 399px)': {
-        alignItems: 'center',
-      },
-      '@container card (min-width: 400px)': {
-        flex: '1 0 auto',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 'calc(100% - 50px)',
-      },
-    }),
-    [],
-  );
-
-  const sideButtonsStyle = useMemo(
-    () => ({
-      background: current.highlight.raw,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: '0 0 30px',
-      padding: '25px',
-      gap: '15px',
-      '@container card (max-width: 399px)': {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-      },
-    }),
-    [current],
-  );
 
   const color = props.theme[props.theme.activeAccent][props.theme.applyTo];
 
@@ -120,7 +34,7 @@ export const useColor = (props: ColorProps) => {
   );
 
   const onChangeActiveAccent = useCallback(
-    (value: SelectValue<WheelOutputAccents>) => {
+    (value: SelectValue<ColorThemeAccents>) => {
       props.onChangeAccent(props.theme, value.value);
     },
     [props.onChangeAccent, props.theme],
@@ -157,27 +71,7 @@ export const useColor = (props: ColorProps) => {
   }, [color]);
 
   const onExport = useCallback(() => {
-    const keys = ColorAccents.map((accent) => accent.value);
-    const applyTo = ApplyTo.map((kind) => kind.value);
-
-    const objToExport = (
-      Object.keys(props.theme) as WheelOutputAccents[]
-    ).reduce((current, property) => {
-      if (keys.includes(property as any) === false) {
-        return current;
-      }
-
-      return {
-        ...current,
-        [property]: applyTo.map((apply) => ({
-          [apply]: CssColorsFactories.makeCurrentColorTo(
-            props.theme[property][apply],
-            props.theme.kind,
-          ),
-        })),
-      };
-    }, {});
-
+    const objToExport = exportTheme(props.theme[props.theme.activeAccent]);
     const blob = new Blob([JSON.stringify(objToExport)], {
       type: 'application/json',
     });
@@ -189,6 +83,29 @@ export const useColor = (props: ColorProps) => {
   const onClick = useCallback(() => {
     props.onSelect(props.theme);
   }, [props.onSelect, props.theme]);
+
+  const onModeChange = useCallback(() => {
+    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  }, []);
+
+  const onDelete = useCallback(() => {
+    props.onDelete(props.theme);
+  }, [props.onDelete, props.theme]);
+
+  useEffect(
+    function onTitleChange() {
+      const title = titleRef.current.innerHTML;
+
+      if (title !== props.theme.title) {
+        props.onChangeTitle &&
+          props.onChangeTitle({
+            ...props.theme,
+            title,
+          });
+      }
+    },
+    [titleRef, props.theme.title],
+  );
 
   useEffect(function onRender() {
     const container = containerRef.current;
@@ -220,17 +137,13 @@ export const useColor = (props: ColorProps) => {
   }, []);
 
   return {
+    titleRef,
     containerRef,
-    containerStyle,
-    contentStyle,
-    rowSelectsStyle,
-    rowInputStyle,
-    sideButtonsStyle,
-    current,
     color,
     applyTo,
     colorAccent,
     kind,
+    mode,
     onChangeActiveAccent,
     onChangeApply,
     onChangeColorKind,
@@ -238,5 +151,7 @@ export const useColor = (props: ColorProps) => {
     onCopy,
     onExport,
     onClick,
+    onModeChange,
+    onDelete,
   };
 };

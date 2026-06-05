@@ -8,18 +8,15 @@ import type {
   Picker,
   PickerWithColor,
   PrepareCanvasInput,
+  WheelColor,
   WheelComputedSize,
-  WheelOutput,
-  WheelOutputAccents,
   WheelProps,
 } from './wheel.types';
-import type { HSL, HSLA, Position, RGBA } from '@/types';
-import type { ThemeColor } from '@/theme';
+import type { Position, RGBA } from '@/types';
 import { CssColorsFactories } from '@/factories';
 import VERTEX from './wheel.vertex.glsl?raw';
 import WHEEL from './wheel.shader.glsl?raw';
 import PICKERS from './pickers.shader.glsl?raw';
-import { LIGHTNESS_MAP, SATURATION_MAP } from './wheel.static';
 import { executeGlsl, SQUARE } from './execute-glsl';
 
 export const WheelUtils = {
@@ -198,6 +195,8 @@ export const WheelUtils = {
           pixel,
         );
 
+        const alpha = pixel[3] / 255;
+
         return {
           ...picker,
           color: {
@@ -205,8 +204,8 @@ export const WheelUtils = {
             red: pixel[0],
             green: pixel[1],
             blue: pixel[2],
-            alpha: pixel[3] / 255,
-            raw: `rgba(${((pixel[0], pixel[1], pixel[2]), pixel[3] / 255)})`,
+            alpha,
+            raw: `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${alpha})`,
           },
         } satisfies PickerWithColor;
       }),
@@ -267,83 +266,8 @@ export const WheelUtils = {
       raw: `rgba(${red}, ${green}, ${blue}, ${1})`,
     };
   },
-  clampColor: (x: number, a = 0, b = 1) => Math.min(b, Math.max(a, x)) * 100,
-  shade: (color: HSL | HSLA, light: number, scale: number): HSLA => {
-    const hue = color.hue;
-    const saturation = WheelUtils.clampColor(color.saturation * scale);
-    const lightness = WheelUtils.clampColor(light);
-
-    return {
-      type: 'HSLA',
-      hue,
-      saturation,
-      lightness,
-      alpha: (color as HSLA).alpha || 1,
-      raw: `hsla(${hue}, ${saturation}%, ${lightness}%, ${(color as HSLA).alpha || 1})`,
-    } as HSLA;
-  },
-  makeColorAccents: (main: HSLA, id: string): WheelOutput => {
-    return (
-      [
-        '900',
-        '800',
-        '700',
-        '600',
-        'main',
-        '400',
-        '300',
-        '200',
-        '100',
-      ] satisfies WheelOutputAccents[]
-    ).reduce(
-      (output, accent) => {
-        const color: HSLA =
-          accent === 'main'
-            ? main
-            : WheelUtils.shade(
-                main,
-                LIGHTNESS_MAP[accent],
-                SATURATION_MAP[accent],
-              );
-        const rgba = CssColorsFactories.makeCurrentColorTo(color, 'RGBA');
-        const luminance = CssColorsFactories.makeLuminance(rgba);
-        const highlight = CssColorsFactories.makeHighlightFromLuminance(
-          rgba,
-          luminance,
-          'RGBA',
-        );
-        const text = CssColorsFactories.makeTextColorFromLuminance(luminance);
-        const shadow = CssColorsFactories.makeShadowFromLuminance(
-          rgba,
-          luminance,
-          'RGBA',
-        );
-
-        return {
-          ...output,
-          [accent]: {
-            color: rgba,
-            highlight,
-            text,
-            shadow,
-          } satisfies ThemeColor,
-        };
-      },
-      {
-        id,
-        activeAccent: 'main',
-        kind: 'RGBA',
-        applyTo: 'color',
-      } as WheelOutput,
-    );
-  },
-  getWheelOutput: (context: DrawWheelAfterFillColors): WheelOutput[] => {
-    return context.colors.map((current) =>
-      WheelUtils.makeColorAccents(
-        CssColorsFactories.makeCurrentColorTo(current.color, 'HSLA'),
-        current.id,
-      ),
-    );
+  getWheelOutput: (context: DrawWheelAfterFillColors): WheelColor[] => {
+    return context.colors.map(({ color, id }) => ({ id, color }));
   },
   getMousePosition: (
     canvas: HTMLCanvasElement,
