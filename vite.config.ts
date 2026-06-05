@@ -5,6 +5,6 @@ import { prettierFormat } from 'vite-plugin-prettier-format';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/css-colors/',
+  base: '/color-picker/',
   plugins: [react(), tsConfigPaths(), prettierFormat()],
 });

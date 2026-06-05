@@ -1,5 +1,5 @@
 {
-  "name": "@lizzelabs/css-colors",
+  "name": "@lizzelabs/color-picker",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -13,7 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@lizzelabs/react-harmony": "link:../react-harmony",
+    "@lizzelabs/react-harmony": "^2.1.1",
     "@types/lodash": "^4.17.20",
     "lodash": "^4.17.21",
     "react": "^19.2.0",
